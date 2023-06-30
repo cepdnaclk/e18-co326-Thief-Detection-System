@@ -3,9 +3,11 @@ import paho.mqtt.client as mqtt
 from PIL import Image
 
 # MQTT broker settings
-broker_address = "192.168.1.116"
-broker_port = 1883
+broker_address = "3c32f0b9a6ab48a0981e92db4965c5af.s1.eu.hivemq.cloud"
+broker_port = 8883
 topic = "work/cam0"
+
+
 
 # MQTT event callbacks
 def on_connect(client, userdata, flags, rc):
@@ -22,9 +24,13 @@ def on_disconnect(client, userdata, rc):
 
 # MQTT client setup
 client = mqtt.Client()
+client.tls_set(ca_certs="./ca_cert.crt")
+client.username_pw_set("vilakshan29", "Selva1969")
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_disconnect = on_disconnect
+
+
 client.connect(broker_address, broker_port, 60)
 
 # Image decoding and display functions
