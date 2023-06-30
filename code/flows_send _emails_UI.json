@@ -1,0 +1,417 @@
+[
+    {
+        "id": "bf38e0ac1047c19d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f908b9c37d476216",
+        "type": "mqtt in",
+        "z": "bf38e0ac1047c19d",
+        "name": "",
+        "topic": "work/cam0",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "b2ff21ab6093c7d7",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 60,
+        "y": 500,
+        "wires": [
+            [
+                "b1564c7fd8938e0a",
+                "16111e57227ad24a",
+                "4a2a12c3c7219632",
+                "c42f106367851498",
+                "5ab64aae82295ea5"
+            ]
+        ]
+    },
+    {
+        "id": "c42f106367851498",
+        "type": "function",
+        "z": "bf38e0ac1047c19d",
+        "name": "Convert to Base64",
+        "func": "var base64Image = msg.payload.toString('base64');\nmsg.payload = {\n    image: base64Image\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 500,
+        "wires": [
+            [
+                "7bc5d919fb0a886c"
+            ]
+        ]
+    },
+    {
+        "id": "7bc5d919fb0a886c",
+        "type": "ui_template",
+        "z": "bf38e0ac1047c19d",
+        "group": "a7e65d94.7e7ad8",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "6",
+        "format": "<img src=\"data:image/jpeg;base64,{{msg.payload.image}}\" width=\"320\" height=\"320\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 580,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4a2a12c3c7219632",
+        "type": "ui_toast",
+        "z": "bf38e0ac1047c19d",
+        "position": "top right",
+        "displayTime": "2",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Thief detected",
+        "name": "Show notification to UI",
+        "x": 380,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "b1564c7fd8938e0a",
+        "type": "e-mail",
+        "z": "bf38e0ac1047c19d",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "rasathuraikaran26@gmail.com",
+        "dname": "Send mail to Client 1",
+        "x": 380,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "16111e57227ad24a",
+        "type": "ui_audio",
+        "z": "bf38e0ac1047c19d",
+        "name": "Voice Alert",
+        "group": "a7e65d94.7e7ad8",
+        "voice": "Bubbles",
+        "always": true,
+        "x": 370,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "de63001932aa147c",
+        "type": "ui_button",
+        "z": "bf38e0ac1047c19d",
+        "name": "",
+        "group": "a7e65d94.7e7ad8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "button",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 90,
+        "y": 640,
+        "wires": [
+            [
+                "4a2a12c3c7219632"
+            ]
+        ]
+    },
+    {
+        "id": "5ab64aae82295ea5",
+        "type": "ui_gauge",
+        "z": "bf38e0ac1047c19d",
+        "name": "Performance",
+        "group": "a7e65d94.7e7ad8",
+        "order": 3,
+        "width": "6",
+        "height": "7",
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 370,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "fde3f7dfec62105a",
+        "type": "ui_button",
+        "z": "bf38e0ac1047c19d",
+        "name": "",
+        "group": "a11c4fed2c95bea6",
+        "order": 2,
+        "width": "5",
+        "height": "1",
+        "passthru": false,
+        "label": "Turn On System",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "green",
+        "className": "",
+        "icon": "",
+        "payload": "on",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 780,
+        "wires": [
+            [
+                "642b4e4202fc2dfa",
+                "d701fe0613652725"
+            ]
+        ]
+    },
+    {
+        "id": "b7430ba62a21f0cb",
+        "type": "ui_button",
+        "z": "bf38e0ac1047c19d",
+        "name": "",
+        "group": "a11c4fed2c95bea6",
+        "order": 0,
+        "width": "5",
+        "height": "1",
+        "passthru": false,
+        "label": "Turn Of System",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "red",
+        "className": "",
+        "icon": "",
+        "payload": "off",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 880,
+        "wires": [
+            [
+                "642b4e4202fc2dfa",
+                "d701fe0613652725"
+            ]
+        ]
+    },
+    {
+        "id": "642b4e4202fc2dfa",
+        "type": "debug",
+        "z": "bf38e0ac1047c19d",
+        "name": "Msg Payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "d701fe0613652725",
+        "type": "ui_led",
+        "z": "bf38e0ac1047c19d",
+        "order": 1,
+        "group": "a11c4fed2c95bea6",
+        "width": "5",
+        "height": "3",
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "off",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "on",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 390,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "79acb23c309014d5",
+        "type": "ui_audio",
+        "z": "bf38e0ac1047c19d",
+        "name": "",
+        "group": "a7e65d94.7e7ad8",
+        "voice": "Alva",
+        "always": true,
+        "x": 500,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "2aec4b874c61f9ea",
+        "type": "inject",
+        "z": "bf38e0ac1047c19d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "karan",
+        "payload": "Hello CO326  Kumara sangakkara in your house therif was detected. Save your house",
+        "payloadType": "str",
+        "x": 70,
+        "y": 1080,
+        "wires": [
+            [
+                "79acb23c309014d5",
+                "780e3f8f91a1207d"
+            ]
+        ]
+    },
+    {
+        "id": "780e3f8f91a1207d",
+        "type": "ui_toast",
+        "z": "bf38e0ac1047c19d",
+        "position": "top left",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": true,
+        "className": "",
+        "topic": "theief",
+        "name": "bububub",
+        "x": 480,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "b2ff21ab6093c7d7",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "3c32f0b9a6ab48a0981e92db4965c5af.s1.eu.hivemq.cloud",
+        "port": "8883",
+        "tls": "ceb37ef3efb77fcc",
+        "clientid": "karan",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a7e65d94.7e7ad8",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "4f5cbb86.f86694",
+        "order": 1,
+        "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a11c4fed2c95bea6",
+        "type": "ui_group",
+        "name": "Turn  On System",
+        "tab": "4f5cbb86.f86694",
+        "order": 3,
+        "disp": false,
+        "width": "5",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ceb37ef3efb77fcc",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "isrgrootx1.pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "4f5cbb86.f86694",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
