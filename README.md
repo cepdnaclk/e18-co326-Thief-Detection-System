@@ -1,11 +1,7 @@
 ___
-# This project is implemented to identify unauthorized persons to a place, and notify about these intrusions to the users.
+# This project aims to enhance security measures by effectively identifying and alerting unauthorized individuals attempting to access a specific location. The implementation involves integrating several components, including Node-RED (a flow-based programming tool used for IoT applications), an ESP32 Cam (a microcontroller with a built-in camera module), AWS EC2 (Elastic Compute Cloud for cloud computing), and HiveMQ (a message broker for MQTT communication).
 ___
 
-
-![image](https://user-images.githubusercontent.com/11540782/98789936-028d3600-2429-11eb-84be-aaba665fdc75.png)
-
-### Special Configurations
 
 These projects will be automatically added into [https://projects.ce.pdn.ac.lk](). If you like to show more details about your project on this site, you can fill the parameters in the file, _/docs/index.json_
 
