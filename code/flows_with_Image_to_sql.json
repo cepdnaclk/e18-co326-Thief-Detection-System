@@ -1,0 +1,579 @@
+[
+    {
+        "id": "05939f7be28ae3d8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1d0a9a93.3a963",
+        "type": "mqtt in",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "topic": "work/cam0",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "b2ff21ab6093c7d7",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 60,
+        "y": 500,
+        "wires": [
+            [
+                "eb2d8845.4a4a48"
+            ]
+        ]
+    },
+    {
+        "id": "eb2d8845.4a4a48",
+        "type": "function",
+        "z": "05939f7be28ae3d8",
+        "name": "Convert to Base64",
+        "func": "var base64Image = msg.payload.toString('base64');\nmsg.payload = {\n    image: base64Image\n};\nmsg.topic = \"INSERT INTO ImageData VALUES ('\" + base64Image + \"')\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 500,
+        "wires": [
+            [
+                "ab3646f7.32958",
+                "8e5ccea2a106e428"
+            ]
+        ]
+    },
+    {
+        "id": "ab3646f7.32958",
+        "type": "ui_template",
+        "z": "05939f7be28ae3d8",
+        "group": "a7e65d94.7e7ad8",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "6",
+        "format": "<img src=\"data:image/jpeg;base64,{{msg.payload.image}}\" width=\"320\" height=\"320\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 480,
+        "y": 500,
+        "wires": [
+            [
+                "a036b5d9958d9dda"
+            ]
+        ]
+    },
+    {
+        "id": "15237651.20281a",
+        "type": "debug",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "84df0cd4.58462",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Select",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "SELECT TOP (1) [Topic]       ,[Payload]   FROM [Dev].[dbo].[MQTTData]",
+        "payloadType": "str",
+        "x": 71.00000381469727,
+        "y": 153.99999809265137,
+        "wires": [
+            [
+                "eac3e9b1.b2f0e8"
+            ]
+        ]
+    },
+    {
+        "id": "ca03c5dc.709628",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Insert",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "INSERT INTO [Dev].[dbo].[MQTTData] (Topic, Payload) VALUES ('Cardinal', 'Tom B. Erichsen' )",
+        "payloadType": "str",
+        "x": 73,
+        "y": 205,
+        "wires": [
+            [
+                "eac3e9b1.b2f0e8"
+            ]
+        ]
+    },
+    {
+        "id": "57a3215a.12b8d",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Update",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 70,
+        "y": 256,
+        "wires": [
+            [
+                "fc1afd38.1ad0f"
+            ]
+        ]
+    },
+    {
+        "id": "fc1afd38.1ad0f",
+        "type": "function",
+        "z": "05939f7be28ae3d8",
+        "name": "Function",
+        "func": "d = new Date,\ndformat = [d.getMonth()+1,\n    d.getDate(),\n    d.getFullYear()].join('/')+' '+\n    [d.getHours(),\n    d.getMinutes(),\n    d.getSeconds()].join(':');\n\ndtstmp = new Date().toString();\npld =       \"UPDATE [Dev].[dbo].[MQTTData] \"\npld = pld + \"Set Timestamp = '\" + dformat + \"' \"\npld = pld + \"WHERE id = 1\"\n\nmsg.payload = pld\nreturn msg;\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 210,
+        "y": 256,
+        "wires": [
+            [
+                "eac3e9b1.b2f0e8"
+            ]
+        ]
+    },
+    {
+        "id": "35b4a3e.f64c05c",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Select",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "2",
+        "payloadType": "num",
+        "x": 71,
+        "y": 312,
+        "wires": [
+            [
+                "1528d6ba.7db449"
+            ]
+        ]
+    },
+    {
+        "id": "1528d6ba.7db449",
+        "type": "function",
+        "z": "05939f7be28ae3d8",
+        "name": "Function",
+        "func": "pld =       \"SELECT ID, Topic, Payload, Timestamp \"\npld = pld + \"FROM [Dev].[dbo].[MQTTData] \"\npld = pld + \"WHERE id = \" + msg.payload\n\nmsg.payload = pld\nreturn msg;\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 211,
+        "y": 312,
+        "wires": [
+            [
+                "eac3e9b1.b2f0e8"
+            ]
+        ]
+    },
+    {
+        "id": "38bb7577.af1c3a",
+        "type": "mqtt in",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "topic": "SQLTest/#",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "712b53e5.990dfc",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 62,
+        "y": 362,
+        "wires": [
+            [
+                "7eafa2f8.041ebc"
+            ]
+        ]
+    },
+    {
+        "id": "7eafa2f8.041ebc",
+        "type": "function",
+        "z": "05939f7be28ae3d8",
+        "name": "Function",
+        "func": "d = new Date(),\ndformat = [d.getMonth()+1,\n    d.getDate(),\n    d.getFullYear()].join('/')+' '+\n    [d.getHours(),\n    d.getMinutes(),\n    d.getSeconds()].join(':');\n\npld =       \"INSERT INTO [Dev].[dbo].[MQTTData] \"\npld = pld + \"(Topic, Payload, Timestamp) \"\npld = pld + \"VALUES ('\" + msg.topic + \"', '\" + msg.payload + \"', '\" + dformat + \"')\"\n\nmsg.topic = ''\nmsg.payload = pld\nreturn msg;\n\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 204,
+        "y": 362,
+        "wires": [
+            [
+                "15237651.20281a",
+                "eac3e9b1.b2f0e8"
+            ]
+        ]
+    },
+    {
+        "id": "eac3e9b1.b2f0e8",
+        "type": "MSSQL",
+        "z": "05939f7be28ae3d8",
+        "mssqlCN": "df8c0b88.91b0a8",
+        "name": "MSSQL",
+        "query": "",
+        "outField": "payload",
+        "x": 439,
+        "y": 221,
+        "wires": [
+            [
+                "15237651.20281a"
+            ]
+        ]
+    },
+    {
+        "id": "8e5ccea2a106e428",
+        "type": "mysql",
+        "z": "05939f7be28ae3d8",
+        "mydb": "fb355cf6b1d91849",
+        "name": "",
+        "x": 450,
+        "y": 640,
+        "wires": [
+            [
+                "baab3e2a062b34f4"
+            ]
+        ]
+    },
+    {
+        "id": "b17625321a19d97c",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Insert",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "INSERT INTO Images  Values(1,'Thief1');",
+        "x": 170,
+        "y": 680,
+        "wires": [
+            [
+                "8e5ccea2a106e428"
+            ]
+        ]
+    },
+    {
+        "id": "9f9b21c8f2b31ddf",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "CreateTable ",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "CREATE TABLE Images (ImageID int ,  image varchar(255) );",
+        "x": 188.00000381469727,
+        "y": 628.9999980926514,
+        "wires": [
+            [
+                "8e5ccea2a106e428"
+            ]
+        ]
+    },
+    {
+        "id": "ddf3ed9c45cab6e6",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Update",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 167,
+        "y": 731,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "17f4fcf0ea9b4a74",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Select",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "Select * from ImageData;",
+        "x": 168,
+        "y": 787,
+        "wires": [
+            [
+                "8e5ccea2a106e428"
+            ]
+        ]
+    },
+    {
+        "id": "baab3e2a062b34f4",
+        "type": "debug",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e589cc6b19aec10b",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Delete Table",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "Drop Table ImageData",
+        "x": 190,
+        "y": 840,
+        "wires": [
+            [
+                "8e5ccea2a106e428"
+            ]
+        ]
+    },
+    {
+        "id": "3ffbd4af93c4497b",
+        "type": "inject",
+        "z": "05939f7be28ae3d8",
+        "name": "Create Table",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "Create table ImageData(Image LONGBLOB);",
+        "x": 190,
+        "y": 980,
+        "wires": [
+            [
+                "8e5ccea2a106e428"
+            ]
+        ]
+    },
+    {
+        "id": "d9fe1822733e68fc",
+        "type": "mqtt in",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "topic": "work/cam0",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "b2ff21ab6093c7d7",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 160,
+        "y": 1180,
+        "wires": [
+            [
+                "309ac6db1b9ccbd4"
+            ]
+        ]
+    },
+    {
+        "id": "309ac6db1b9ccbd4",
+        "type": "debug",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "a036b5d9958d9dda",
+        "type": "debug",
+        "z": "05939f7be28ae3d8",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b2ff21ab6093c7d7",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "3c32f0b9a6ab48a0981e92db4965c5af.s1.eu.hivemq.cloud",
+        "port": "8883",
+        "tls": "ceb37ef3efb77fcc",
+        "clientid": "hariharan",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a7e65d94.7e7ad8",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "4f5cbb86.f86694",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "712b53e5.990dfc",
+        "type": "mqtt-broker",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "NodeRedSQLClient",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": "15",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "df8c0b88.91b0a8",
+        "type": "MSSQL-CN",
+        "name": "Dev",
+        "server": "localhost",
+        "encyption": false,
+        "database": "Dev"
+    },
+    {
+        "id": "fb355cf6b1d91849",
+        "type": "MySQLdatabase",
+        "name": "sql12629454",
+        "host": "sql12.freemysqlhosting.net",
+        "port": "3306",
+        "db": "sql12629454",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "ceb37ef3efb77fcc",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "isrgrootx1.pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "4f5cbb86.f86694",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
