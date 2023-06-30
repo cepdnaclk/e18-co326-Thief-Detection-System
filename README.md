@@ -39,7 +39,6 @@ These projects will be automatically added into [https://projects.ce.pdn.ac.lk](
 }
 ```
 
-Once you filled this _index.json_ file, please verify the syntax is correct. (You can use [this](https://jsonlint.com/) tool).
 
 ### Page Theme
 
